@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: goviolin-ingress
+  namespace: goviolin
+spec:
+  rules:
+    - host: 'foo.bar.baz'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: "goviolin-service"
+                port:
+                  number: 8080
