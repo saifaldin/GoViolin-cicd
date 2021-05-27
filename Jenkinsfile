@@ -19,9 +19,11 @@ pipeline {
     stage('docker build & push image') {
       steps {
         script() {
-          dockerImage = docker.build("${DOCKERHUB_IMAGE}:${VERSION}", "-f ${DOCKERFILE} .")
+          dockerImage_versioned = docker.build("${DOCKERHUB_IMAGE}:${VERSION}", "-f ${DOCKERFILE} .")
+          dockerImage_latest = docker.build("${DOCKERHUB_IMAGE}:latest", "-f ${DOCKERFILE} .")
           docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub-credentials') {
-            dockerImage.push()
+            dockerImage_versioned.push()
+            dockerImage_latest.push()
           }
         }
       }
